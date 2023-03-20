@@ -71,13 +71,20 @@ class _LibraryState extends State<Library> {
                         leading: const Icon(
                           Icons.folder_copy,
                           size: 40,
+                          color: Colors.white,
                         ),
-                        title: Text(playLIst[index].listName),
+                        title: Text(
+                          playLIst[index].listName,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                         trailing: IconButton(
                             onPressed: () {
                               showDeleteForm(index);
                             },
-                            icon: const Icon(Icons.delete)),
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            )),
                       );
                     },
                     separatorBuilder: (context, index) => const SizedBox(

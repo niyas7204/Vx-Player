@@ -38,6 +38,7 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black,
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -79,8 +80,13 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                                 songADDtoplaylist(
                                     widget.allSong, index, context);
                               },
-                              leading: const Icon(Icons.music_note),
-                              title: Text(playLIst[index].listName),
+                              leading: const Icon(
+                                Icons.folder_copy,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                              title: Text(playLIst[index].listName,
+                                  style: const TextStyle(color: Colors.white)),
                             );
                           },
                           separatorBuilder: (context, index) => const SizedBox(

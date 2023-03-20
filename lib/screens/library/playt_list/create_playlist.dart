@@ -1,4 +1,3 @@
-import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -80,13 +79,20 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                               leading: const Icon(
                                 Icons.folder_copy,
                                 size: 40,
+                                color: Colors.white,
                               ),
-                              title: Text(playLIst[index].listName),
+                              title: Text(
+                                playLIst[index].listName,
+                                style: const TextStyle(color: Colors.white),
+                              ),
                               trailing: IconButton(
                                   onPressed: () {
                                     showDeleteForm(index);
                                   },
-                                  icon: const Icon(Icons.delete)),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  )),
                             );
                           },
                           separatorBuilder: (context, index) => const SizedBox(

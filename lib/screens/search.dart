@@ -14,7 +14,7 @@ class SearchSCreen extends StatefulWidget {
 }
 
 class _SearchSCreenState extends State<SearchSCreen> {
-  late List<SongModel> allsong;
+  List<SongModel> allsong = [];
   bool searchState = false;
   List<SongModel> foundsongs = [];
   final audioQuery = OnAudioQuery();
@@ -22,7 +22,10 @@ class _SearchSCreenState extends State<SearchSCreen> {
 
   @override
   void initState() {
-    loadSong();
+    setState(() {
+      loadSong();
+    });
+
     super.initState();
   }
 
