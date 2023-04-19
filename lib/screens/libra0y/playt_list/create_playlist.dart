@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
-import 'package:audio_player_final/screens/library/playt_list/songsinplaylist.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
 
 class CreatePlaylist extends StatefulWidget {
   const CreatePlaylist({super.key});

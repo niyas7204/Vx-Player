@@ -1,7 +1,7 @@
-import 'package:audio_player_final/screens/library/favorites.dart';
-import 'package:audio_player_final/screens/library/most_played.dart';
-import 'package:audio_player_final/screens/library/playt_list/create_playlist.dart';
-import 'package:audio_player_final/screens/library/recent_playlist.dart';
+import 'package:audio_player_final/screens/libra0y/favorites.dart';
+import 'package:audio_player_final/screens/libra0y/most_played.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/create_playlist.dart';
+import 'package:audio_player_final/screens/libra0y/recent_playlist.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/widgets/drawer/drawer.dart';

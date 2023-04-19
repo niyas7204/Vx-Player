@@ -1,5 +1,5 @@
 import 'package:audio_player_final/fuctions/database_functions.dart';
-import 'package:audio_player_final/screens/library/playt_list/addtoplaylist.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/addtoplaylist.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/screens/playing_screen.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';

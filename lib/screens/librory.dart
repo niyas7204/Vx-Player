@@ -1,12 +1,12 @@
 import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
-import 'package:audio_player_final/screens/library/playt_list/songsinplaylist.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
-import 'package:audio_player_final/screens/library/recent_playlist.dart';
-import 'package:audio_player_final/screens/library/favorites.dart';
-import 'package:audio_player_final/screens/library/most_played.dart';
+import 'package:audio_player_final/screens/libra0y/recent_playlist.dart';
+import 'package:audio_player_final/screens/libra0y/favorites.dart';
+import 'package:audio_player_final/screens/libra0y/most_played.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class Library extends StatefulWidget {

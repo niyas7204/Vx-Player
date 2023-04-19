@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:audio_player_final/fuctions/database_functions.dart';
-import 'package:audio_player_final/screens/library/playt_list/addSong.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/addSong.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';

@@ -2,7 +2,7 @@ import 'package:audio_player_final/screens/search.dart';
 import 'package:audio_player_final/screens/allsongs.dart';
 import 'package:flutter/material.dart';
 
-import 'package:audio_player_final/screens/library.dart';
+import 'package:audio_player_final/screens/librory.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
