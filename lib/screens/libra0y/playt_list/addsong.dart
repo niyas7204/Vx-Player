@@ -1,21 +1,14 @@
-import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
-import 'package:audio_player_final/screens/libra0y/playt_list/addtoplaylist.dart';
-import 'package:audio_player_final/screens/mini_player.dart';
+
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:provider/provider.dart';
 
-class AllSongstoList extends StatefulWidget {
-  int playlistIndex;
-  AllSongstoList({super.key, required this.playlistIndex});
+class AllSongstoList extends StatelessWidget {
+  final int playlistIndex;
+  const AllSongstoList({super.key, required this.playlistIndex});
 
-  @override
-  State<AllSongstoList> createState() => _AllSongstoListState();
-}
-
-class _AllSongstoListState extends State<AllSongstoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +23,8 @@ class _AllSongstoListState extends State<AllSongstoList> {
                 child: ListTile(
                   onTap: () {
                     Provider.of<DbFucnctionsProvider>(context, listen: false)
-                        .songADDtoplaylist(GetAllSong.allSong[index],
-                            widget.playlistIndex, context);
+                        .songADDtoplaylist(
+                            GetAllSong.allSong[index], playlistIndex, context);
                     Navigator.of(context).pop();
                   },
                   leading: const Icon(

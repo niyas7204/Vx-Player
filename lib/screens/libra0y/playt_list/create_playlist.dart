@@ -7,31 +7,11 @@ import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
 import 'package:provider/provider.dart';
 
-class CreatePlaylist extends StatefulWidget {
+class CreatePlaylist extends StatelessWidget {
   const CreatePlaylist({super.key});
-
-  @override
-  State<CreatePlaylist> createState() => _CreatePlaylistState();
-}
-
-class _CreatePlaylistState extends State<CreatePlaylist> {
-  List<PlayListMOdel> playLIst = [];
-
-  TextEditingController newPlaylistController = TextEditingController();
-  final plBox = Hive.box<PlayListMOdel>('playlist_Data');
-  void getPlaylist() {
-    playLIst = plBox.values.toList();
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    getPlaylist();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    Provider.of<DbFucnctionsProvider>(context).addData();
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -58,9 +38,9 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                       )),
                 ),
               ),
-              Builder(
-                builder: (context) {
-                  if (playLIst.isEmpty) {
+              Consumer<DbFucnctionsProvider>(
+                builder: (context, value, child) {
+                  if (value.playList.isEmpty) {
                     return Expanded(
                       child: Center(
                         child: emptyText('No Playlist Found'),
@@ -73,9 +53,8 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                             return ListTile(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      PLaylistSongs(index: index),
-                                ));
+                                    builder: (context) =>
+                                        PLaylistSongs(playlistindex: index)));
                               },
                               leading: const Icon(
                                 Icons.folder_copy,
@@ -83,12 +62,12 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                                 color: Colors.white,
                               ),
                               title: Text(
-                                playLIst[index].listName,
+                                value.playList[index].listName,
                                 style: const TextStyle(color: Colors.white),
                               ),
                               trailing: IconButton(
                                   onPressed: () {
-                                    showDeleteForm(index);
+                                    showDeleteForm(index, context);
                                   },
                                   icon: const Icon(
                                     Icons.delete,
@@ -99,7 +78,7 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 10,
                               ),
-                          itemCount: playLIst.length),
+                          itemCount: value.playList.length),
                     );
                   }
                 },
@@ -111,6 +90,7 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
   }
 
   void newPlaylistform(BuildContext context) {
+    TextEditingController newPlaylistController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
@@ -146,10 +126,10 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                   style: TextStyle(color: Colors.black),
                 )),
             TextButton(
-              onPressed: () async {
+              onPressed: () {
                 Provider.of<DbFucnctionsProvider>(context, listen: false)
                     .createPlaylist(newPlaylistController.text, context);
-                getPlaylist();
+
                 Navigator.of(context).pop();
                 newPlaylistController.clear();
               },
@@ -161,7 +141,7 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
     );
   }
 
-  showDeleteForm(index) {
+  showDeleteForm(index, context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -172,9 +152,8 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                     child: const Text('cancel')),
                 TextButton(
                     onPressed: () {
-                      plBox.deleteAt(index);
-                      playLIst.removeAt(index);
-                      getPlaylist();
+                      Provider.of<DbFucnctionsProvider>(context)
+                          .deletePlayList(index);
                       Navigator.of(context).pop();
                     },
                     child: const Text('delete')),

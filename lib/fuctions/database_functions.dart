@@ -1,19 +1,17 @@
 import 'dart:developer';
-import 'dart:typed_data';
 
-import 'package:audio_player_final/provider/get_library_provider.dart';
 import 'package:audio_player_final/screens/allsongs.dart';
-import 'package:audio_player_final/screens/libra0y/most_played.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audio_player_final/db/playlist_model.dart';
-import 'package:provider/provider.dart';
 
 class DbFucnctionsProvider with ChangeNotifier {
   List recentSongId = [];
   List mostSongId = [];
   List favSongId = [];
+  List<PlayListMOdel> playList = [];
   void songADDtoplaylist(SongModel songDT, int index, context) {
     final plBox = Hive.box<PlayListMOdel>('playlist_Data');
     final data = plBox.values.toList()[index];
@@ -30,6 +28,18 @@ class DbFucnctionsProvider with ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.of(context).pop();
     }
+    playList = plBox.values.toList();
+    log(playList.toString());
+    notifyListeners();
+  }
+
+  deleteFromPlayList(playlistindex, index, id) {
+    final plBox = Hive.box<PlayListMOdel>('playlist_Data');
+    final list = plBox.values.toList()[playlistindex];
+    list.songId.removeAt(index);
+    plBox.putAt(playlistindex, list);
+    playList = plBox.values.toList();
+    notifyListeners();
   }
 
   void createPlaylist(name, context) {
@@ -54,7 +64,16 @@ class DbFucnctionsProvider with ChangeNotifier {
             const SnackBar(content: Text('file already exist change the name'));
       }
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      playList = plBox.values.toList();
     }
+    notifyListeners();
+  }
+
+  deletePlayList(index) {
+    final plBox = Hive.box<PlayListMOdel>('playlist_Data');
+    plBox.deleteAt(index);
+    playList = plBox.values.toList();
+    notifyListeners();
   }
 
   addToFavorites(int songId, context) {
@@ -75,7 +94,7 @@ class DbFucnctionsProvider with ChangeNotifier {
     final recentBox = Hive.box('recentlyPlayed');
     final list = recentBox.values.toList();
 
-    if (list.length >= 5) {
+    if (list.length > 5) {
       recentBox.deleteAt(0);
     }
     await recentBox.add(id);
@@ -93,7 +112,7 @@ class DbFucnctionsProvider with ChangeNotifier {
   getMostPlayedSongs() {
     List mostList = [];
     final mostPlayedBox = Hive.box('MostPlayed');
-   
+
     final mostPlayedItems = mostPlayedBox.values.toList();
 
     int count;
@@ -123,6 +142,8 @@ class DbFucnctionsProvider with ChangeNotifier {
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     }
+    favSongId = favbox.values.toList();
+    notifyListeners();
   }
 
   chekFavorite(id) {
@@ -155,10 +176,10 @@ class DbFucnctionsProvider with ChangeNotifier {
 
   addData() {
     final recentBox = Hive.box('recentlyPlayed');
-
+    final playListBox = Hive.box<PlayListMOdel>('playlist_Data');
     final favbox = Hive.box('favorite_songs');
     recentSongId = recentBox.values.toList();
-
+    playList = playListBox.values.toList();
     favSongId = favbox.values.toList();
     notifyListeners();
   }

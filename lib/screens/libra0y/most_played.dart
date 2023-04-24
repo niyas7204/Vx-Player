@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/provider/get_library_provider.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
@@ -31,8 +33,9 @@ class MostplayedSc extends StatelessWidget {
                       return Center(child: emptyText('No Songs Found'));
                     } else {
                       return ListView.separated(
-                          itemBuilder: (context, index) =>
-                              songlist(value.mostSongs, index, context),
+                          itemBuilder: (context, index) {
+                            return songlist(value.mostSongs, index, context);
+                          },
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 10,
                               ),

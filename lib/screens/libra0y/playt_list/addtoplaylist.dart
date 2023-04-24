@@ -8,35 +8,13 @@ import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:provider/provider.dart';
 
-class AddToPlaylist extends StatefulWidget {
+class AddToPlaylist extends StatelessWidget {
   final SongModel allSong;
   const AddToPlaylist({super.key, required this.allSong});
 
   @override
-  State<AddToPlaylist> createState() => _AddToPlaylistState();
-}
-
-class _AddToPlaylistState extends State<AddToPlaylist> {
-  List<PlayListMOdel> playLIst = [];
-
-  TextEditingController newPlaylistController = TextEditingController();
-  final plBox = Hive.box<PlayListMOdel>('playlist_Data');
-  late Box<PlayListMOdel> songs;
-  get allSongDAta => null;
-  void getPlaylist() {
-    playLIst = plBox.values.toList();
-    songs = plBox;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    getPlaylist();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Provider.of<DbFucnctionsProvider>(context).addData();
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -63,9 +41,9 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                       )),
                 ),
               ),
-              Builder(
-                builder: (context) {
-                  if (playLIst.isEmpty) {
+              Consumer<DbFucnctionsProvider>(
+                builder: (context, value, child) {
+                  if (value.playList.isEmpty) {
                     return Expanded(
                       child: Center(
                         child: emptyText('No Playlist Found'),
@@ -79,22 +57,21 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                               onTap: () {
                                 Provider.of<DbFucnctionsProvider>(context,
                                         listen: false)
-                                    .songADDtoplaylist(
-                                        widget.allSong, index, context);
+                                    .songADDtoplaylist(allSong, index, context);
                               },
                               leading: const Icon(
                                 Icons.folder_copy,
                                 size: 40,
                                 color: Colors.white,
                               ),
-                              title: Text(playLIst[index].listName,
+                              title: Text(value.playList[index].listName,
                                   style: const TextStyle(color: Colors.white)),
                             );
                           },
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 10,
                               ),
-                          itemCount: playLIst.length),
+                          itemCount: value.playList.length),
                     );
                   }
                 },
@@ -106,6 +83,7 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
   }
 
   void newPlaylistform(BuildContext context) {
+    TextEditingController newPlaylistController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
@@ -143,10 +121,8 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
             TextButton(
               onPressed: () async {
                 if (newPlaylistController.text.isNotEmpty) {
-                  final PlayListMOdel listData = PlayListMOdel(
-                      listName: newPlaylistController.text, songId: []);
-                  plBox.add(listData);
-                  getPlaylist();
+                  Provider.of<DbFucnctionsProvider>(context, listen: false)
+                      .createPlaylist(newPlaylistController.text, context);
                   Navigator.of(context).pop();
                 }
               },

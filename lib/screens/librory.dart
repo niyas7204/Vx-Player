@@ -1,4 +1,5 @@
 import 'package:audio_player_final/db/playlist_model.dart';
+import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
@@ -8,29 +9,10 @@ import 'package:audio_player_final/screens/libra0y/recent_playlist.dart';
 import 'package:audio_player_final/screens/libra0y/favorites.dart';
 import 'package:audio_player_final/screens/libra0y/most_played.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
-class Library extends StatefulWidget {
+class Library extends StatelessWidget {
   const Library({super.key});
-
-  @override
-  State<Library> createState() => _LibraryState();
-}
-
-class _LibraryState extends State<Library> {
-  List<PlayListMOdel> playLIst = [];
-
-  final plBox = Hive.box<PlayListMOdel>('playlist_Data');
-  getList() {
-    setState(() {
-      playLIst = plBox.values.toList();
-    });
-  }
-
-  @override
-  void initState() {
-    getList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,37 +42,40 @@ class _LibraryState extends State<Library> {
                 child: cText('Playlist'),
               ),
               Expanded(
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PLaylistSongs(index: index),
-                          ));
-                        },
-                        leading: const Icon(
-                          Icons.folder_copy,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          playLIst[index].listName,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        trailing: IconButton(
-                            onPressed: () {
-                              showDeleteForm(index);
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            )),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                          height: 10,
-                        ),
-                    itemCount: playLIst.length),
+                child: Consumer<DbFucnctionsProvider>(
+                  builder: (context, value, child) => ListView.separated(
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  PLaylistSongs(playlistindex: index),
+                            ));
+                          },
+                          leading: const Icon(
+                            Icons.folder_copy,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                          title: Text(
+                            value.playList[index].listName,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                showDeleteForm(index, context);
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              )),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount: value.playList.length),
+                ),
               )
             ],
           ),
@@ -99,7 +84,7 @@ class _LibraryState extends State<Library> {
     );
   }
 
-  showDeleteForm(index) {
+  showDeleteForm(index, context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -110,9 +95,8 @@ class _LibraryState extends State<Library> {
                     child: const Text('cancel')),
                 TextButton(
                     onPressed: () {
-                      plBox.deleteAt(index);
-                      playLIst.removeAt(index);
-                      getList();
+                      Provider.of<DbFucnctionsProvider>(context, listen: false)
+                          .deletePlayList(index);
                       Navigator.of(context).pop();
                     },
                     child: const Text('delete')),

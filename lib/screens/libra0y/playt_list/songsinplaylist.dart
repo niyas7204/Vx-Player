@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:audio_player_final/fuctions/database_functions.dart';
-import 'package:audio_player_final/screens/libra0y/playt_list/addSong.dart';
+import 'package:audio_player_final/provider/get_library_provider.dart';
+import 'package:audio_player_final/screens/libra0y/playt_list/addsong.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,36 +13,20 @@ import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/playing_screen.dart';
 import 'package:provider/provider.dart';
 
-class PLaylistSongs extends StatefulWidget {
-  final int index;
-  const PLaylistSongs({super.key, required this.index});
-
-  @override
-  State<PLaylistSongs> createState() => _PLaylistSongsState();
-}
-
-class _PLaylistSongsState extends State<PLaylistSongs> {
-  late PlayListMOdel song;
-  late List<SongModel> songdt;
-  final sBox = Hive.box<PlayListMOdel>('playlist_Data');
-  getSong() {
-    setState(() {
-      song = sBox.values.toList()[widget.index];
-      songdt = listOFplaylist(song.songId);
-    });
-  }
-
-  @override
-  void initState() {
-    getSong();
-    super.initState();
-  }
+class PLaylistSongs extends StatelessWidget {
+  final int playlistindex;
+  const PLaylistSongs({super.key, required this.playlistindex});
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<GetlibarahSongProvider>(context)
+        .getPlaylistSongs(context, playlistindex);
     return Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(title: Text(song.listName)),
+        appBar: AppBar(
+            title: Consumer<DbFucnctionsProvider>(
+                builder: (context, value, child) =>
+                    Text(value.playList[playlistindex].listName))),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
@@ -49,141 +34,148 @@ class _PLaylistSongsState extends State<PLaylistSongs> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      AllSongstoList(playlistIndex: widget.index),
+                      AllSongstoList(playlistIndex: playlistindex),
                 ));
           },
         ),
         body: SafeArea(
-            child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Builder(builder: (context) {
-                if (songdt.isEmpty) {
-                  return Center(child: emptyText('No Songs found'));
-                } else {
-                  return ListView.separated(
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color.fromARGB(88, 90, 169, 233)),
-                          child: ListTile(
-                            onTap: () {
-                              GetAllSong.axplayer.setAudioSource(
-                                  GetAllSong.createSonglist(songdt),
-                                  initialIndex: index);
-                              GetAllSong.axplayer.play();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PlayerSc(
-                                      songModelList: songdt,
-                                    ),
-                                  ));
-                            },
-                            title: Text(songdt[index].title,
-                                maxLines: 1,
-                                style: const TextStyle(color: Colors.white)),
-                            subtitle: Text(
-                              songdt[index].displayName,
-                              maxLines: 1,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            leading: const Icon(
-                              Icons.music_note,
-                              color: Colors.white,
-                            ),
-                            trailing: PopupMenuButton(
-                              color: Colors.white,
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                    child: GestureDetector(
-                                  onTap: () {
-                                    song.songId.removeAt(index);
-                                    songdt.removeAt(index);
-                                    sBox.putAt(index, song);
-                                    getSong();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Row(
-                                    children: const [
-                                      Text(
-                                        'Delete from playlist',
+            child: Consumer<GetlibarahSongProvider>(
+          builder: (context, value, child) => Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Builder(builder: (context) {
+                  if (value.playlistSongs.isEmpty) {
+                    return Center(child: emptyText('No Songs found'));
+                  } else {
+                    return ListView.separated(
+                        itemBuilder: (context, index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color.fromARGB(88, 90, 169, 233)),
+                            child: ListTile(
+                              onTap: () {
+                                GetAllSong.axplayer.setAudioSource(
+                                    GetAllSong.createSonglist(
+                                        value.playlistSongs),
+                                    initialIndex: index);
+                                GetAllSong.axplayer.play();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PlayerSc(
+                                        songModelList: value.playlistSongs,
                                       ),
-                                      Icon(
-                                        Icons.delete,
-                                      )
-                                    ],
-                                  ),
-                                )),
-                                PopupMenuItem(child: Builder(
-                                  builder: (context) {
-                                    final bool fav =
-                                        Provider.of<DbFucnctionsProvider>(
-                                                context,
-                                                listen: false)
-                                            .chekFavorite(songdt[index].id);
-                                    if (!fav) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Provider.of<DbFucnctionsProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .addToFavorites(
-                                            songdt[index].id,
-                                            context,
-                                          );
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Text(
-                                              'Add to favorite',
-                                            ),
-                                            Icon(
-                                              Icons.favorite_sharp,
-                                            )
-                                          ],
+                                    ));
+                              },
+                              title: Text(value.playlistSongs[index].title,
+                                  maxLines: 1,
+                                  style: const TextStyle(color: Colors.white)),
+                              subtitle: Text(
+                                value.playlistSongs[index].displayName,
+                                maxLines: 1,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              leading: const Icon(
+                                Icons.music_note,
+                                color: Colors.white,
+                              ),
+                              trailing: PopupMenuButton(
+                                color: Colors.white,
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      Provider.of<DbFucnctionsProvider>(context,
+                                              listen: false)
+                                          .deleteFromPlayList(
+                                              playlistindex,
+                                              index,
+                                              value.playlistSongs[index].id);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Text(
+                                          'Delete from playlist',
                                         ),
-                                      );
-                                    } else {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Provider.of<DbFucnctionsProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .deleteFAvorite(
-                                                  songdt[index].id, context);
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Text(
-                                              'delete from favorite',
-                                            ),
-                                            Icon(Icons.favorite_sharp)
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ))
-                              ],
+                                        Icon(
+                                          Icons.delete,
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                                  PopupMenuItem(child: Builder(
+                                    builder: (context) {
+                                      final bool fav = Provider.of<
+                                                  DbFucnctionsProvider>(context,
+                                              listen: false)
+                                          .chekFavorite(
+                                              value.playlistSongs[index].id);
+                                      if (!fav) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Provider.of<DbFucnctionsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addToFavorites(
+                                              value.playlistSongs[index].id,
+                                              context,
+                                            );
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Row(
+                                            children: const [
+                                              Text(
+                                                'Add to favorite',
+                                              ),
+                                              Icon(
+                                                Icons.favorite_sharp,
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Provider.of<DbFucnctionsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .deleteFAvorite(
+                                                    value.playlistSongs[index]
+                                                        .id,
+                                                    context);
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Row(
+                                            children: const [
+                                              Text(
+                                                'delete from favorite',
+                                              ),
+                                              Icon(Icons.favorite_sharp)
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ))
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 10,
-                          ),
-                      itemCount: songdt.length);
-                }
-              }),
-            ),
-          ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 10,
+                            ),
+                        itemCount: value.playlistSongs.length);
+                  }
+                }),
+              ),
+            ],
+          ),
         )),
         bottomNavigationBar: const MiniPlayer());
   }

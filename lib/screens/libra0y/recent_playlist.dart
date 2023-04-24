@@ -10,7 +10,6 @@ class RecentlyPlayed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<GetlibarahSongProvider>(context).getrecentSongs(context);
     return Scaffold(
         backgroundColor: const Color.fromARGB(120, 0, 0, 0),
         appBar: AppBar(
@@ -20,8 +19,10 @@ class RecentlyPlayed extends StatelessWidget {
             Icon(Icons.replay_circle_filled_outlined)
           ],
         )),
-        body: Consumer<GetlibarahSongProvider>(
-          builder: (context, value, child) => Padding(
+        body:
+            Consumer<GetlibarahSongProvider>(builder: (context, value, child) {
+          value.getrecentSongs(context);
+          return Padding(
               padding: const EdgeInsets.all(10),
               child: Builder(
                 builder: (context) {
@@ -42,8 +43,8 @@ class RecentlyPlayed extends StatelessWidget {
                         itemCount: value.recentSongs.length);
                   }
                 },
-              )),
-        ),
+              ));
+        }),
         bottomNavigationBar: const MiniPlayer());
   }
 }
