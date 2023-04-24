@@ -5,6 +5,7 @@ import 'package:audio_player_final/screens/libra0y/playt_list/addtoplaylist.dart
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 class AllSongstoList extends StatefulWidget {
   int playlistIndex;
@@ -28,8 +29,9 @@ class _AllSongstoListState extends State<AllSongstoList> {
                     color: const Color.fromARGB(88, 90, 169, 233)),
                 child: ListTile(
                   onTap: () {
-                    songADDtoplaylist(GetAllSong.allSong[index],
-                        widget.playlistIndex, context);
+                    Provider.of<DbFucnctionsProvider>(context, listen: false)
+                        .songADDtoplaylist(GetAllSong.allSong[index],
+                            widget.playlistIndex, context);
                     Navigator.of(context).pop();
                   },
                   leading: const Icon(

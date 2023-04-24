@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
+import 'package:provider/provider.dart';
 
 class PlayerSc extends StatefulWidget {
   final List<SongModel> songModelList;
@@ -24,6 +25,7 @@ class _PlayerScState extends State<PlayerSc> {
   int currentindex = 0;
 
   getsong() {
+    GetAllSong.axplayer.play();
     GetAllSong.axplayer.currentIndexStream.listen((index) {
       if (index != null) {
         setState(() {
@@ -31,7 +33,8 @@ class _PlayerScState extends State<PlayerSc> {
           currentindex = index;
         });
         GetAllSong.currentindexes = index;
-        fav = chekFavorite(GetAllSong.playingSong[currentindex].id);
+        fav = Provider.of<DbFucnctionsProvider>(context)
+            .chekFavorite(GetAllSong.playingSong[currentindex].id);
       }
     });
     playSong();
@@ -149,14 +152,18 @@ class _PlayerScState extends State<PlayerSc> {
                               icon: const Icon(Icons.playlist_add)),
                           IconButton(onPressed: () async {
                             if (fav) {
-                              deleteFAvorite(
-                                  widget.songModelList[currentindex].id,
-                                  context);
+                              Provider.of<DbFucnctionsProvider>(context,
+                                      listen: false)
+                                  .deleteFAvorite(
+                                      widget.songModelList[currentindex].id,
+                                      context);
                               fav = false;
                             } else {
-                              addToFavorites(
-                                  widget.songModelList[currentindex].id,
-                                  context);
+                              Provider.of<DbFucnctionsProvider>(context,
+                                      listen: false)
+                                  .addToFavorites(
+                                      widget.songModelList[currentindex].id,
+                                      context);
                               fav = true;
                             }
                             getsong();
@@ -230,14 +237,20 @@ class _PlayerScState extends State<PlayerSc> {
                           child: IconButton(
                               onPressed: () async {
                                 if (GetAllSong.axplayer.hasPrevious) {
-                                  addtorecent(GetAllSong
-                                      .playingSong[
-                                          GetAllSong.axplayer.currentIndex! - 1]
-                                      .id);
-                                  addToMostplayed(GetAllSong
-                                      .playingSong[
-                                          GetAllSong.axplayer.currentIndex! - 1]
-                                      .id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addtorecent(GetAllSong
+                                          .playingSong[GetAllSong
+                                                  .axplayer.currentIndex! -
+                                              1]
+                                          .id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addToMostplayed(GetAllSong
+                                          .playingSong[GetAllSong
+                                                  .axplayer.currentIndex! -
+                                              1]
+                                          .id);
                                   await GetAllSong.axplayer.seekToPrevious();
                                   await GetAllSong.axplayer.play();
                                 } else {
@@ -268,14 +281,20 @@ class _PlayerScState extends State<PlayerSc> {
                           child: IconButton(
                               onPressed: () async {
                                 if (GetAllSong.axplayer.hasNext) {
-                                  addtorecent(GetAllSong
-                                      .playingSong[
-                                          GetAllSong.axplayer.currentIndex! + 1]
-                                      .id);
-                                  addToMostplayed(GetAllSong
-                                      .playingSong[
-                                          GetAllSong.axplayer.currentIndex! + 1]
-                                      .id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addtorecent(GetAllSong
+                                          .playingSong[GetAllSong
+                                                  .axplayer.currentIndex! +
+                                              1]
+                                          .id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addToMostplayed(GetAllSong
+                                          .playingSong[GetAllSong
+                                                  .axplayer.currentIndex! +
+                                              1]
+                                          .id);
                                   await GetAllSong.axplayer.seekToNext();
                                   await GetAllSong.axplayer.play();
                                 } else {

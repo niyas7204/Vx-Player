@@ -3,6 +3,7 @@ import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/widgets/drawer/aboutus.dart';
 import 'package:audio_player_final/widgets/drawer/privacy.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DrawerSc extends StatelessWidget {
   const DrawerSc({super.key});
@@ -77,7 +78,9 @@ your saved datas will be deleted
                           child: const Text('NO')),
                       TextButton(
                           onPressed: () {
-                            clearData(context);
+                            Provider.of<DbFucnctionsProvider>(context,
+                                    listen: false)
+                                .clearData(context);
                             GetAllSong.axplayer.stop();
                             GetAllSong.playerON.value = false;
                             Navigator.of(context).pop;

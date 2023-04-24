@@ -1,4 +1,3 @@
-import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_player_final/db/playlist_model.dart';
@@ -7,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
+import 'package:provider/provider.dart';
 
 class AddToPlaylist extends StatefulWidget {
   final SongModel allSong;
@@ -77,8 +77,10 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () {
-                                songADDtoplaylist(
-                                    widget.allSong, index, context);
+                                Provider.of<DbFucnctionsProvider>(context,
+                                        listen: false)
+                                    .songADDtoplaylist(
+                                        widget.allSong, index, context);
                               },
                               leading: const Icon(
                                 Icons.folder_copy,

@@ -5,6 +5,7 @@ import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
+import 'package:provider/provider.dart';
 
 class CreatePlaylist extends StatefulWidget {
   const CreatePlaylist({super.key});
@@ -146,7 +147,8 @@ class _CreatePlaylistState extends State<CreatePlaylist> {
                 )),
             TextButton(
               onPressed: () async {
-                createPlaylist(newPlaylistController.text, context);
+                Provider.of<DbFucnctionsProvider>(context, listen: false)
+                    .createPlaylist(newPlaylistController.text, context);
                 getPlaylist();
                 Navigator.of(context).pop();
                 newPlaylistController.clear();

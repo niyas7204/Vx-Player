@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class FavoritesSC extends StatefulWidget {
   const FavoritesSC({super.key});
@@ -59,8 +60,12 @@ class _FavoritesSCState extends State<FavoritesSC> {
                                 color: const Color.fromARGB(88, 90, 169, 233)),
                             child: ListTile(
                                 onTap: () {
-                                  addToMostplayed(songDAta[index].id);
-                                  addtorecent(songDAta[index].id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addToMostplayed(songDAta[index].id);
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addtorecent(songDAta[index].id);
                                   GetAllSong.axplayer.setAudioSource(
                                       GetAllSong.createSonglist(songDAta),
                                       initialIndex: index);
@@ -114,12 +119,20 @@ class _FavoritesSCState extends State<FavoritesSC> {
                                     PopupMenuItem(child: Builder(
                                       builder: (context) {
                                         final bool fav =
-                                            chekFavorite(songDAta[index].id);
+                                            Provider.of<DbFucnctionsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .chekFavorite(
+                                                    songDAta[index].id);
                                         if (!fav) {
                                           return GestureDetector(
                                             onTap: () {
-                                              addToFavorites(
-                                                  songDAta[index].id, context);
+                                              Provider.of<DbFucnctionsProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .addToFavorites(
+                                                      songDAta[index].id,
+                                                      context);
                                               Navigator.of(context).pop();
                                               getFAvSong();
                                             },
@@ -133,8 +146,12 @@ class _FavoritesSCState extends State<FavoritesSC> {
                                         } else {
                                           return GestureDetector(
                                             onTap: () {
-                                              deleteFAvorite(
-                                                  songDAta[index].id, context);
+                                              Provider.of<DbFucnctionsProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .deleteFAvorite(
+                                                      songDAta[index].id,
+                                                      context);
                                               Navigator.of(context).pop();
                                               getFAvSong();
                                             },

@@ -10,6 +10,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/playing_screen.dart';
+import 'package:provider/provider.dart';
 
 class PLaylistSongs extends StatefulWidget {
   final int index;
@@ -121,11 +122,17 @@ class _PLaylistSongsState extends State<PLaylistSongs> {
                                 PopupMenuItem(child: Builder(
                                   builder: (context) {
                                     final bool fav =
-                                        chekFavorite(songdt[index].id);
+                                        Provider.of<DbFucnctionsProvider>(
+                                                context,
+                                                listen: false)
+                                            .chekFavorite(songdt[index].id);
                                     if (!fav) {
                                       return GestureDetector(
                                         onTap: () {
-                                          addToFavorites(
+                                          Provider.of<DbFucnctionsProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .addToFavorites(
                                             songdt[index].id,
                                             context,
                                           );
@@ -145,8 +152,11 @@ class _PLaylistSongsState extends State<PLaylistSongs> {
                                     } else {
                                       return GestureDetector(
                                         onTap: () {
-                                          deleteFAvorite(
-                                              songdt[index].id, context);
+                                          Provider.of<DbFucnctionsProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .deleteFAvorite(
+                                                  songdt[index].id, context);
                                           Navigator.of(context).pop();
                                         },
                                         child: Row(

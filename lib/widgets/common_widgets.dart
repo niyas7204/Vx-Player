@@ -4,6 +4,7 @@ import 'package:audio_player_final/screens/libra0y/playt_list/addtoplaylist.dart
 import 'package:audio_player_final/screens/playing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 liberyCard(cardName, context, page) {
   return Row(
@@ -11,11 +12,13 @@ liberyCard(cardName, context, page) {
       Column(
         children: [
           GestureDetector(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => page,
-                )),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => page,
+                  ));
+            },
             child: Container(
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * .15,
@@ -82,11 +85,13 @@ popmoreDiologe(SongModel songData) {
       )),
       PopupMenuItem(child: Builder(
         builder: (context) {
-          final bool fav = chekFavorite(songData.id);
+          final bool fav = Provider.of<DbFucnctionsProvider>(context)
+              .chekFavorite(songData.id);
           if (!fav) {
             return GestureDetector(
               onTap: () {
-                addToFavorites(songData.id, context);
+                Provider.of<DbFucnctionsProvider>(context, listen: false)
+                    .addToFavorites(songData.id, context);
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -99,7 +104,8 @@ popmoreDiologe(SongModel songData) {
           } else {
             return GestureDetector(
               onTap: () {
-                deleteFAvorite(songData.id, context);
+                Provider.of<DbFucnctionsProvider>(context, listen: false)
+                    .deleteFAvorite(songData.id, context);
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -123,15 +129,20 @@ songlist(List<SongModel> songDAta, index, context) {
         color: const Color.fromARGB(88, 90, 169, 233)),
     child: ListTile(
       onTap: () async {
-        addToMostplayed(songDAta[index].id);
-        addtorecent(songDAta[index].id);
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+        Provider.of<DbFucnctionsProvider>(context, listen: false)
+            .addToMostplayed(songDAta[index].id);
+        Provider.of<DbFucnctionsProvider>(context, listen: false)
+            .addtorecent(songDAta[index].id);
 
         await GetAllSong.axplayer.setAudioSource(
             GetAllSong.createSonglist(songDAta),
             initialIndex: index);
 
-        GetAllSong.axplayer.play();
-        Navigator.push(
+        await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => PlayerSc(

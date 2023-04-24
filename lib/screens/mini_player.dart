@@ -2,6 +2,7 @@ import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/playing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MiniPlayer extends StatefulWidget {
   const MiniPlayer({super.key});
@@ -57,14 +58,18 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     IconButton(
                         onPressed: () async {
                           if (GetAllSong.axplayer.hasPrevious) {
-                            addtorecent(GetAllSong
-                                .playingSong[
-                                    GetAllSong.axplayer.currentIndex! - 1]
-                                .id);
-                            addToMostplayed(GetAllSong
-                                .playingSong[
-                                    GetAllSong.axplayer.currentIndex! - 1]
-                                .id);
+                            Provider.of<DbFucnctionsProvider>(context,
+                                    listen: false)
+                                .addtorecent(GetAllSong
+                                    .playingSong[
+                                        GetAllSong.axplayer.currentIndex! - 1]
+                                    .id);
+                            Provider.of<DbFucnctionsProvider>(context,
+                                    listen: false)
+                                .addToMostplayed(GetAllSong
+                                    .playingSong[
+                                        GetAllSong.axplayer.currentIndex! - 1]
+                                    .id);
                             await GetAllSong.axplayer.seekToPrevious();
                             await GetAllSong.axplayer.play();
                           } else {
@@ -101,14 +106,18 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     IconButton(
                         onPressed: () async {
                           if (GetAllSong.axplayer.hasNext) {
-                            addtorecent(GetAllSong
-                                .playingSong[
-                                    GetAllSong.axplayer.currentIndex! + 1]
-                                .id);
-                            addToMostplayed(GetAllSong
-                                .playingSong[
-                                    GetAllSong.axplayer.currentIndex! + 1]
-                                .id);
+                            Provider.of<DbFucnctionsProvider>(context,
+                                    listen: false)
+                                .addtorecent(GetAllSong
+                                    .playingSong[
+                                        GetAllSong.axplayer.currentIndex! + 1]
+                                    .id);
+                            Provider.of<DbFucnctionsProvider>(context,
+                                    listen: false)
+                                .addToMostplayed(GetAllSong
+                                    .playingSong[
+                                        GetAllSong.axplayer.currentIndex! + 1]
+                                    .id);
                             await GetAllSong.axplayer.seekToNext();
                             await GetAllSong.axplayer.play();
                           } else {
