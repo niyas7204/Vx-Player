@@ -8,12 +8,11 @@ import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/widgets/drawer/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:flutter/foundation.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:provider/provider.dart';
 
 class AllSongs extends StatelessWidget {
-  const AllSongs({Key? key}) : super(key: key);
+  const AllSongs({super.key});
 
   @override
   Widget build(BuildContext context) {

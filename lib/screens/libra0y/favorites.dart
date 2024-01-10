@@ -20,8 +20,8 @@ class FavoritesSC extends StatelessWidget {
     return Consumer<GetlibarahSongProvider>(
       builder: (context, value, child) => Scaffold(
           appBar: AppBar(
-            title: Row(
-              children: const [Text('Favorites'), Icon(Icons.favorite)],
+            title: const Row(
+              children: [Text('Favorites'), Icon(Icons.favorite)],
             ),
           ),
           body: SafeArea(
@@ -94,8 +94,8 @@ class FavoritesSC extends StatelessWidget {
                                                 allSong: value.favSongs[index]),
                                           ));
                                         },
-                                        child: Row(
-                                          children: const [
+                                        child: const Row(
+                                          children: [
                                             Text('Add to playlist'),
                                             Icon(Icons.add)
                                           ],
@@ -113,8 +113,8 @@ class FavoritesSC extends StatelessWidget {
                                                       context);
                                               Navigator.of(context).pop();
                                             },
-                                            child: Row(
-                                              children: const [
+                                            child: const Row(
+                                              children: [
                                                 Text('delete from favorite'),
                                                 Icon(Icons.favorite_sharp)
                                               ],

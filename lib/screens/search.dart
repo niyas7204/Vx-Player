@@ -1,5 +1,3 @@
-import 'package:audio_player_final/fuctions/getall_song.dart';
-import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

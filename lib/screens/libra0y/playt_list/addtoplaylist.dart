@@ -1,20 +1,27 @@
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
-import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:provider/provider.dart';
 
-class AddToPlaylist extends StatelessWidget {
+class AddToPlaylist extends StatefulWidget {
   final SongModel allSong;
   const AddToPlaylist({super.key, required this.allSong});
 
   @override
-  Widget build(BuildContext context) {
+  State<AddToPlaylist> createState() => _AddToPlaylistState();
+}
+
+class _AddToPlaylistState extends State<AddToPlaylist> {
+  @override
+  void initState() {
     Provider.of<DbFucnctionsProvider>(context).addData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -33,8 +40,8 @@ class AddToPlaylist extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.blue),
-                      child: Row(
-                        children: const [
+                      child: const Row(
+                        children: [
                           Icon(Icons.add),
                           Text('create new playlist')
                         ],
@@ -57,7 +64,8 @@ class AddToPlaylist extends StatelessWidget {
                               onTap: () {
                                 Provider.of<DbFucnctionsProvider>(context,
                                         listen: false)
-                                    .songADDtoplaylist(allSong, index, context);
+                                    .songADDtoplaylist(
+                                        widget.allSong, index, context);
                               },
                               leading: const Icon(
                                 Icons.folder_copy,

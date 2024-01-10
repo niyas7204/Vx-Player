@@ -13,8 +13,8 @@ class RecentlyPlayed extends StatelessWidget {
     return Scaffold(
         backgroundColor: const Color.fromARGB(120, 0, 0, 0),
         appBar: AppBar(
-            title: Row(
-          children: const [
+            title: const Row(
+          children: [
             Text('RecentPlaylist'),
             Icon(Icons.replay_circle_filled_outlined)
           ],

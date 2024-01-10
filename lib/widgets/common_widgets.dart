@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/addtoplaylist.dart';
@@ -81,8 +79,8 @@ popmoreDiologe(SongModel songData) {
             builder: (context) => AddToPlaylist(allSong: songData),
           ));
         },
-        child: Row(
-          children: const [Text('Add to playlist'), Icon(Icons.add)],
+        child: const Row(
+          children: [Text('Add to playlist'), Icon(Icons.add)],
         ),
       )),
       PopupMenuItem(child: Builder(
@@ -96,11 +94,8 @@ popmoreDiologe(SongModel songData) {
                     .addToFavorites(songData.id, context);
                 Navigator.of(context).pop();
               },
-              child: Row(
-                children: const [
-                  Text('Add to favorite'),
-                  Icon(Icons.favorite_sharp)
-                ],
+              child: const Row(
+                children: [Text('Add to favorite'), Icon(Icons.favorite_sharp)],
               ),
             );
           } else {
@@ -110,8 +105,8 @@ popmoreDiologe(SongModel songData) {
                     .deleteFAvorite(songData.id, context);
                 Navigator.of(context).pop();
               },
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Text('delete from favorite'),
                   Icon(Icons.favorite_sharp)
                 ],

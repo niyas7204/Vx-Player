@@ -1,4 +1,4 @@
-package com.example.audio_player_final
+package player.vxplayer
 
 import io.flutter.embedding.android.FlutterActivity
 

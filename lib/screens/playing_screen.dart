@@ -150,38 +150,34 @@ class _PlayerScState extends State<PlayerSc> {
                                     ));
                               },
                               icon: const Icon(Icons.playlist_add)),
-                          IconButton(onPressed: () async {
-                            if (fav) {
-                              Provider.of<DbFucnctionsProvider>(context,
-                                      listen: false)
-                                  .deleteFAvorite(
-                                      widget.songModelList[currentindex].id,
-                                      context);
-                              fav = false;
-                            } else {
-                              Provider.of<DbFucnctionsProvider>(context,
-                                      listen: false)
-                                  .addToFavorites(
-                                      widget.songModelList[currentindex].id,
-                                      context);
-                              fav = true;
-                            }
-                            getsong();
-                          }, icon: StreamBuilder<bool>(
-                            builder: (context, snapshot) {
-                              if (fav) {
-                                return const Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                );
-                              } else {
-                                return const Icon(
-                                  Icons.favorite,
-                                  color: Color.fromARGB(255, 247, 247, 247),
-                                );
-                              }
-                            },
-                          ))
+                          IconButton(
+                              onPressed: () async {
+                                if (fav) {
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .deleteFAvorite(
+                                          widget.songModelList[currentindex].id,
+                                          context);
+                                  fav = false;
+                                } else {
+                                  Provider.of<DbFucnctionsProvider>(context,
+                                          listen: false)
+                                      .addToFavorites(
+                                          widget.songModelList[currentindex].id,
+                                          context);
+                                  fav = true;
+                                }
+                                getsong();
+                              },
+                              icon: fav
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite,
+                                      color: Color.fromARGB(255, 247, 247, 247),
+                                    ))
                         ],
                       )
                     ],

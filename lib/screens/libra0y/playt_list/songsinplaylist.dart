@@ -1,14 +1,10 @@
-import 'dart:math';
-
 import 'package:audio_player_final/fuctions/database_functions.dart';
 import 'package:audio_player_final/provider/get_library_provider.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/addsong.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/screens/playing_screen.dart';
 import 'package:provider/provider.dart';
@@ -97,8 +93,8 @@ class PLaylistSongs extends StatelessWidget {
                                               value.playlistSongs[index].id);
                                       Navigator.of(context).pop();
                                     },
-                                    child: Row(
-                                      children: const [
+                                    child: const Row(
+                                      children: [
                                         Text(
                                           'Delete from playlist',
                                         ),
@@ -127,8 +123,8 @@ class PLaylistSongs extends StatelessWidget {
                                             );
                                             Navigator.of(context).pop();
                                           },
-                                          child: Row(
-                                            children: const [
+                                          child: const Row(
+                                            children: [
                                               Text(
                                                 'Add to favorite',
                                               ),
@@ -150,8 +146,8 @@ class PLaylistSongs extends StatelessWidget {
                                                     context);
                                             Navigator.of(context).pop();
                                           },
-                                          child: Row(
-                                            children: const [
+                                          child: const Row(
+                                            children: [
                                               Text(
                                                 'delete from favorite',
                                               ),

@@ -5,12 +5,12 @@ class PrivacySc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: const [
+            children: [
               Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: Text(

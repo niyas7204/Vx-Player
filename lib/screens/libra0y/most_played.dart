@@ -1,14 +1,7 @@
-import 'dart:developer';
-
-import 'package:audio_player_final/fuctions/getall_song.dart';
 import 'package:audio_player_final/provider/get_library_provider.dart';
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'package:audio_player_final/fuctions/database_functions.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 import 'package:provider/provider.dart';
 

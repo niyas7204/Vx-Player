@@ -1,6 +1,4 @@
 import 'package:audio_player_final/provider/audio_provider.dart';
-import 'package:audio_player_final/screens/search.dart';
-import 'package:audio_player_final/screens/allsongs.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';

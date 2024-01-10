@@ -5,11 +5,11 @@ class AboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(0, 34, 33, 33),
+    return const Scaffold(
+      backgroundColor: Color.fromARGB(0, 34, 33, 33),
       body: SafeArea(
         child: Column(
-          children: const [
+          children: [
             Padding(
               padding: EdgeInsets.only(top: 30),
               child: Text(

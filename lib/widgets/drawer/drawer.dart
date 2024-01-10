@@ -13,11 +13,10 @@ class DrawerSc extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          DrawerHeader(
-              decoration:
-                  const BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
+          const DrawerHeader(
+              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
               child: Column(
-                children: const [
+                children: [
                   Icon(
                     Icons.queue_music_rounded,
                     color: Colors.white,
@@ -46,8 +45,8 @@ class DrawerSc extends StatelessWidget {
                     builder: (context) => const AboutUs(),
                   ));
             },
-            title: Row(
-              children: const [
+            title: const Row(
+              children: [
                 Icon(Icons.person),
                 Text('About us'),
               ],
@@ -91,8 +90,8 @@ your saved datas will be deleted
                 },
               );
             },
-            title: Row(
-              children: const [
+            title: const Row(
+              children: [
                 Icon(Icons.restore),
                 Text('Reset App'),
               ],
@@ -104,8 +103,8 @@ your saved datas will be deleted
                 builder: (context) => const PrivacySc(),
               ));
             },
-            title: Row(
-              children: const [
+            title: const Row(
+              children: [
                 Icon(Icons.policy),
                 Text('Privacy & Policy'),
               ],

@@ -1,8 +1,6 @@
 import 'package:audio_player_final/screens/mini_player.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:audio_player_final/fuctions/database_functions.dart';
-import 'package:audio_player_final/db/playlist_model.dart';
 import 'package:audio_player_final/widgets/common_widgets.dart';
 import 'package:audio_player_final/screens/libra0y/playt_list/songsinplaylist.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +28,8 @@ class CreatePlaylist extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.blue),
-                      child: Row(
-                        children: const [
+                      child: const Row(
+                        children: [
                           Icon(Icons.add),
                           Text('create new playlist')
                         ],
@@ -152,7 +150,7 @@ class CreatePlaylist extends StatelessWidget {
                     child: const Text('cancel')),
                 TextButton(
                     onPressed: () {
-                      Provider.of<DbFucnctionsProvider>(context)
+                      Provider.of<DbFucnctionsProvider>(context, listen: false)
                           .deletePlayList(index);
                       Navigator.of(context).pop();
                     },
